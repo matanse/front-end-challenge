@@ -62,6 +62,16 @@ should equal to:
 []
 */
 
+test("select() filter by minPlayTime:2000, 3 results!", () => {
+  const actual = select(items, { minPlayTime: 2000 });
+  const expected = [
+    { id: 7, playTime: 2000, auto: false },
+    { id: 2, playTime: 2000, auto: true },
+    { id: 2, playTime: 2000, auto: true },
+  ];
+  expect(actual).toEqual(expected)
+})
+
 test("select() passed merge as true.", ()=>{
   const actual = select(items, { merge: true });
   const expected = [
@@ -72,7 +82,7 @@ test("select() passed merge as true.", ()=>{
 ];
 expect(actual).toEqual(expected)
 })
-// TODO: Make this test work
+
 /*
 should equal to:
 [
@@ -82,11 +92,18 @@ should equal to:
     { id: 2, playTime: 4000, auto: true  }
 ]
 */
-// const actual4 = select(items, { merge: true, minPlayTime: 4000 });
+
+test("'merge:true' and minPlayTime were set.", ()=>{
+  const actual = select(items, { merge: true, minPlayTime: 4000 })
+  const expected = [
+    { id: 7, playTime: 4500, auto: false },
+    { id: 2, playTime: 4000, auto: true  }
+]
+expect(actual).toEqual(expected)
+})
 /*
 [
     { id: 7, playTime: 4500, auto: false },
     { id: 2, playTime: 4000, auto: true  }
 ]
 */
-console.log("ALL TESTS PASSED");
