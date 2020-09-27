@@ -23,18 +23,6 @@ test("select() returns input array when request options are not defined", () => 
   ]
   expect(actual).toEqual(expected);
 });
-/*
-This should be equal to:
-[
-    { id: 8, playTime:  500, auto: false },
-    { id: 7, playTime: 1500, auto: true  },
-    { id: 1, playTime:  100, auto: true  },
-    { id: 7, playTime: 1000, auto: false },
-    { id: 7, playTime: 2000, auto: false },
-    { id: 2, playTime: 2000, auto: true  },
-    { id: 2, playTime: 2000, auto: true  }
-]
-*/
 
 test("select() filters items by id", () => {
   const actual = select(items, { id: 2 });
@@ -44,23 +32,12 @@ test("select() filters items by id", () => {
   ];
   expect(actual).toEqual(expected);
 });
-/*
-This should be equal to:
-[
-    { id: 2, playTime: 2000, auto: true  },
-    { id: 2, playTime: 2000, auto: true  }
-]
-*/
-test("select() filter by minPlayTime, no results should be found!", () => {
+
+test("select() filter by minPlayTime:4000, no results should be found!", () => {
   const actual = select(items, { minPlayTime: 4000 });
   const expected = [];
   expect(actual).toEqual(expected)
 })
-
-/*
-should equal to:
-[]
-*/
 
 test("select() filter by minPlayTime:2000, 3 results!", () => {
   const actual = select(items, { minPlayTime: 2000 });
@@ -83,16 +60,6 @@ test("select() passed merge as true.", ()=>{
 expect(actual).toEqual(expected)
 })
 
-/*
-should equal to:
-[
-    { id: 8, playTime:  500, auto: false },
-    { id: 1, playTime:  100, auto: true  },
-    { id: 7, playTime: 4500, auto: false },
-    { id: 2, playTime: 4000, auto: true  }
-]
-*/
-
 test("'merge:true' and minPlayTime were set.", ()=>{
   const actual = select(items, { merge: true, minPlayTime: 4000 })
   const expected = [
@@ -101,9 +68,3 @@ test("'merge:true' and minPlayTime were set.", ()=>{
 ]
 expect(actual).toEqual(expected)
 })
-/*
-[
-    { id: 7, playTime: 4500, auto: false },
-    { id: 2, playTime: 4000, auto: true  }
-]
-*/
