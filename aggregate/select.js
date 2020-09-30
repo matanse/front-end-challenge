@@ -1,11 +1,6 @@
-function minTime(inputList, requestTime){
-  let output = [];
-  for (item of inputList) {
-    if (item.playTime >= requestTime) {
-      output.push(item);
-    }
-  }
-  return output;
+function mergeItems(removedItem, newItem){
+  const newTime = removedItem.playTime + newItem.playTime;
+  return {id: removedItem.id, playTime: newTime, auto: removedItem.auto && newItem.auto};
 }
 
 function select(inputList, request = null) {
@@ -15,15 +10,14 @@ function select(inputList, request = null) {
     // options.
     if (request.id && Number.isInteger(request.id)) {
       // 1. Filter by id
-      for (item of inputList) {
-        if (item.id == request.id) {
-          output.push(item);
-        }
-      }
+      output = inputList.filter(item => item.id == request.id)
     } else if (request.minPlayTime && Number.isInteger(request.minPlayTime)) {
       // 2. Filter by minPlayTime
-      output = minTime(inputList, request.minPlayTime)
+      output = inputList.filter(item => item.playTime >= request.minPlayTime)
     }
+    // to be continued as an exercise to replace the above.
+    // item.playTime >= request.minPlayTime 
+    // output = inputList.filter(item => item.playTime >= request.minPlayTime)
 
     if (request.merge && request.merge == true) {
       // 3. Merge items in inputList
@@ -35,14 +29,7 @@ function select(inputList, request = null) {
             isItemIdNew = false;
             // Merge two objects
             removedItem = newMergedList.splice(j,1)
-            const newTime = removedItem[0].playTime + inputList[i].playTime;
-            const newMergedItem = {id: removedItem[0].id, playTime: newTime};
-            if (removedItem[0].auto && inputList[i].auto) {
-              newMergedItem.auto = true;
-            }else{
-              newMergedItem.auto = false;
-            }
-            newMergedList.push(newMergedItem)
+            newMergedList.push(mergeItems(removedItem[0], inputList[i]))
             break
           }
         }
@@ -51,7 +38,7 @@ function select(inputList, request = null) {
         }
       } 
       if (request.minPlayTime && Number.isInteger(request.minPlayTime)){
-        output = minTime(newMergedList, request.minPlayTime)
+        output = newMergedList.filter(item => item.playTime >= request.minPlayTime)
       } else {
         output = newMergedList
       }
