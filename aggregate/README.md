@@ -1,5 +1,5 @@
 ## Data set aggregation
-
+is it
 Given an ordered set of data in the following format:
 
 ```javascript
